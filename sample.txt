@@ -1,1 +1,9 @@
-testing how git works
+git commands example:
+
+//add file to repo
+git add sample.txt                    
+git status                   
+git commit -m "added sample.txt"
+git push
+
+refresh git to see the new file
