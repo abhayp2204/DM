@@ -1,10 +1,6 @@
 #ifndef __DIRECTORY_H
 #define __DIRECTORY_H
 
-// //Type
-// #define FILE 0;
-// #define DIR 1;
-
 //Typedefs
 typedef struct DM * Directory;
 typedef struct DM * PtrToDir;
