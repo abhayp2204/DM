@@ -10,15 +10,16 @@ struct DM
 {
     int Type;
     char Name[20];
-    PtrToDir current;
+    PtrToDir Current;
+    PtrToDir Parent;
     PtrToDir RightSibling;
     PtrToDir LeftChild;   
 };
 
 //Functions
-void createDirectory(Directory manager);
+Directory createDirectory();
 void Add(Directory manger, char type[20], char name[20]);
-void Move(char path[20]);
+void Move(Directory manager, char path[20]);
 void Alias(char alias[20], char path[20]);
 void Teleport(char alias[20]);
 void Find(char prefix[20]);
