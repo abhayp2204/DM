@@ -1,27 +1,27 @@
 #ifndef __DIRECTORY_H
 #define __DIRECTORY_H
 
-//Type
-#define FILE 0;
-#define DIR 1;
+// //Type
+// #define FILE 0;
+// #define DIR 1;
 
 //Typedefs
-typedef struct Directory* Directory;
-typedef struct Directory* Ptr;
+typedef struct DM * Directory;
+typedef struct DM * PtrToDir;
 
 //Structure
-struct Directory
+struct DM
 {
-    char Name[20];
     int Type;
-
-    Ptr Parent;
-    Ptr LeftChild;
-    Ptr RightSibling;
+    char Name[20];
+    PtrToDir current;
+    PtrToDir RightSibling;
+    PtrToDir LeftChild;   
 };
 
 //Functions
-void Add(char type[20], char name[20]);
+void createDirectory(Directory manager);
+void Add(Directory manger, char type[20], char name[20]);
 void Move(char path[20]);
 void Alias(char alias[20], char path[20]);
 void Teleport(char alias[20]);
