@@ -1,17 +1,23 @@
 #ifndef __DIRECTORY_H
 #define __DIRECTORY_H
 
+//Type
+#define FILE 0;
+#define DIR 1;
+
 //Typedefs
 typedef struct Directory* Directory;
+typedef struct Directory* Ptr;
 
 //Structure
 struct Directory
 {
     char Name[20];
+    int Type;
 
-    Directory Parent;
-    Directory LeftChild;
-    Directory RightSibling;
+    Ptr Parent;
+    Ptr LeftChild;
+    Ptr RightSibling;
 };
 
 //Functions
