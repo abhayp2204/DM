@@ -21,7 +21,7 @@ Directory createDirectory()
 
 void Add(Directory manager, char type[20], char name[20])
 {
-    Directory D; 
+    Directory D, T; 
     D = (Directory)malloc(sizeof(struct DM));
     assert(D != NULL);
 
@@ -45,14 +45,16 @@ void Add(Directory manager, char type[20], char name[20])
     D->Parent = manager->Current;
     D->RightSibling = NULL;
     D->LeftChild = NULL;
+
+    T = manager->Current->LeftChild;
     
     if(manager->Current->LeftChild != NULL)
     {
-        while(manager->Current->LeftChild->RightSibling != NULL)
+        while(T->RightSibling != NULL)
         {
-            manager->Current->LeftChild = manager->Current->LeftChild->RightSibling;
+            T = T->RightSibling;
         }
-        manager->Current->LeftChild->RightSibling = D;
+        T->RightSibling = D;
     }
     else
     {
