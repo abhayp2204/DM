@@ -1,16 +1,19 @@
-#include "directory.h"
+#include "directory.c"
 #include<stdio.h>
 #include<string.h>
 
 int main()
 {
     Directory manager;
-
     manager = createDirectory();
+
+    HashTable HT = CreateHT_SC(100);
 
     char action[10];
     char type[20];
     char name[20];
+    char iAlias[20];
+    char iPath[100];
     char whole_path[400];
     char path[20][20];
 
@@ -18,12 +21,14 @@ int main()
     {
         scanf("%s",action);
 
+        //ADD
         if(strcmp(action, "ADD")==0)
         {
             scanf("%s %s",type, name);
             Add(manager, type, name);
         }
         
+        //MOVE
         else if(strcmp(action, "MOVE")==0)
         {
             scanf("%s",whole_path);
@@ -44,6 +49,15 @@ int main()
                 j++;
                 index=0;
             }
+        }
+
+        //ALIAS
+        else if(strcmp(action, "ALIAS") == 0)
+        {
+            //Input alias and path
+            scanf("%s %s", iAlias, iPath);
+
+            Alias(manager, T, iAlias, iPath);
         }
     }
 }

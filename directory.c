@@ -1,8 +1,4 @@
-#include "directory.h"
-#include<stdio.h>
-#include<stdlib.h>
-#include<assert.h>
-#include<string.h>
+#include"directory.h"
 
 Directory createDirectory()
 {
@@ -21,7 +17,7 @@ Directory createDirectory()
 
 void Add(Directory manager, char type[20], char name[20])
 {
-    Directory D; 
+    Directory D, T; 
     D = (Directory)malloc(sizeof(struct DM));
     assert(D != NULL);
 
@@ -45,14 +41,16 @@ void Add(Directory manager, char type[20], char name[20])
     D->Parent = manager->Current;
     D->RightSibling = NULL;
     D->LeftChild = NULL;
+
+    T = manager->Current->LeftChild;
     
     if(manager->Current->LeftChild != NULL)
     {
-        while(manager->Current->LeftChild->RightSibling != NULL)
+        while(T->RightSibling != NULL)
         {
-            manager->Current->LeftChild = manager->Current->LeftChild->RightSibling;
+            T = T->RightSibling;
         }
-        manager->Current->LeftChild->RightSibling = D;
+        T->RightSibling = D;
     }
     else
     {
@@ -62,7 +60,7 @@ void Add(Directory manager, char type[20], char name[20])
     return;
 }
 
-void Move(Directory manager, char path[20])
+void Move(Directory manager, char path[100])
 {
     Directory T = manager->Current;
     Directory D;
@@ -100,4 +98,107 @@ void Move(Directory manager, char path[20])
         manager->Current = T;
         return;
     }
+}
+
+void Alias(Directory D, HashTable HT, char alias[20], char path[100])
+{
+    int correctPath = IsCorrectPath(D,path);
+
+    if( correctPath )
+    {
+        if(Insert_Alias(HT,alias,path))
+        printf("\"%s\" has been added\n", alias);
+    }
+    else
+    {
+        printf("\"%s\" has an invalid path\n", alias);
+    }
+}
+
+int IsCorrectPath(Directory D, char path[100])
+{
+    Directory P =  D;
+    Directory Parent =  P;
+
+    int correctPath = 1;
+    int found;
+
+    int level = 0;
+    char* word;
+
+    //Check if the path is correct
+    do
+    {
+        word = ExtractPath(path,level++);
+
+        //Reached the end of the path
+        if( strcmp(word, "") == 0 )
+        break;
+
+        //Path contains extra dir/files
+        if( P == NULL )
+        {   
+            correctPath = 0;
+            break;
+        }
+
+        //Reinitialize found to 0 at the start of each level
+        found = 0;
+
+        //Traverse right
+        while(P != NULL)
+        {
+            if(strcmp(P->Name, word) == 0 )
+            {
+                found = 1;
+                Parent = P;
+                break;
+            }
+            P = P->RightSibling;
+        }
+
+        //Directory doesn't exist in the current level
+        if( found ==  0 )
+        {
+            correctPath = 0;
+            break;
+        }
+
+        //Traverse down
+        P = Parent->LeftChild;
+        
+    }while( strcmp(word, "") != 0 );
+
+    return correctPath;
+}
+
+char* ExtractPath(char path[100], int level)
+{
+    char* word = (char*)malloc(20*sizeof(char));
+    char ch;
+    int k = 0;
+
+    for( int i = 0 ; i < strlen(path) ; i++ )
+    {
+        ch = path[i];
+
+        while( level > 0 )
+        {
+            if( ch == '/' )
+            {
+                level--;
+            }
+            i++;
+            ch = path[i];
+        }
+
+        if( ch == '/' )
+        {
+            break;
+        }
+        
+        word[k++] = ch;
+    }
+
+    return word;
 }

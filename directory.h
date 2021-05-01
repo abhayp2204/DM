@@ -1,11 +1,24 @@
 #ifndef __DIRECTORY_H
 #define __DIRECTORY_H
+#define _invalid -555;
+
+//Include
+#include<stdio.h>
+#include<stdlib.h>
+#include<assert.h>
+#include<string.h>
+#include<ctype.h>
 
 //Typedefs
 typedef struct DM * Directory;
 typedef struct DM * PtrToDir;
 
-//Structure
+typedef struct Table* HashTable;
+typedef struct Node* PtrToNode;
+
+typedef int Key;
+
+//Directory Structure
 struct DM
 {
     int Type;
@@ -16,12 +29,34 @@ struct DM
     PtrToDir LeftChild;   
 };
 
+struct Table
+{
+    int iTableSize;
+    PtrToNode* pStart;
+};
+
+struct Node
+{
+    char Alias[20];
+    char Path[100];
+    PtrToNode Next;
+};
+
 //Functions
 Directory createDirectory();
 void Add(Directory manger, char type[20], char name[20]);
 void Move(Directory manager, char path[20]);
-void Alias(char alias[20], char path[20]);
+void Alias(Directory D, HashTable HT, char alias[20], char path[100]);
+int IsCorrectPath(Directory D, char path[100]);
+char* ExtractPath(char path[100], int level);
 void Teleport(char alias[20]);
 void Find(char prefix[20]);
+
+//Alias table functions
+HashTable CreateHT_SC(int iTableSize);
+Key HashString(HashTable HT, char alias[]);
+int Insert_Alias(HashTable HT, char alias[], char path[]);
+char* Search_Alias(HashTable HT, char alias[]);
+void PrintTable(HashTable HT);
 
 #endif
