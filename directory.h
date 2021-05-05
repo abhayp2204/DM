@@ -38,7 +38,7 @@ struct Table
 struct Node
 {
     char Alias[20];
-    char Path[100];
+    char Path[400];
     PtrToNode Next;
 };
 
@@ -46,7 +46,7 @@ struct Node
 Directory createDirectory();
 void Add(Directory manger, char type[20], char name[20]);
 void Move(Directory manager, char path[20]);
-void Alias(Directory D, HashTable HT, char alias[20], char path[100]);
+void Alias(Directory D, HashTable HT, char alias[20], char path[400]);
 int IsCorrectPath(Directory D, char path[100]);
 char* ExtractPath(char path[100], int level);
 void Teleport(char alias[20]);

@@ -7,3 +7,6 @@ git commit -m "added sample.txt"
 git push
 
 refresh git to see the new file
+
+//extract file from git
+git pull
