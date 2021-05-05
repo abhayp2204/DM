@@ -1,4 +1,5 @@
 #include "directory.c"
+#include "hash.c"
 #include<stdio.h>
 #include<string.h>
 
@@ -13,7 +14,7 @@ int main()
     char type[20];
     char name[20];
     char iAlias[20];
-    char iPath[100];
+    char iPath[400];
     char whole_path[400];
     char path[20][20];
 

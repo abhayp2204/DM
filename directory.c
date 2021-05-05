@@ -61,7 +61,7 @@ void Add(Directory manager, char type[20], char name[20])
     return;
 }
 
-void Move(Directory manager, char path[100])
+void Move(Directory manager, char path[400])
 {
     Directory T = manager->Current;
     Directory D;
@@ -101,7 +101,7 @@ void Move(Directory manager, char path[100])
     }
 }
 
-void Alias(Directory D, HashTable HT, char alias[20], char path[100])
+void Alias(Directory D, HashTable HT, char alias[20], char path[400])
 {
     int correctPath = IsCorrectPath(D,path);
 
@@ -116,7 +116,7 @@ void Alias(Directory D, HashTable HT, char alias[20], char path[100])
     }
 }
 
-int IsCorrectPath(Directory D, char path[100])
+int IsCorrectPath(Directory D, char path[400])
 {
     Directory P =  D;
     Directory Parent =  P;
@@ -173,7 +173,7 @@ int IsCorrectPath(Directory D, char path[100])
     return correctPath;
 }
 
-char* ExtractPath(char path[100], int level)
+char* ExtractPath(char path[400], int level)
 {
     char* word = (char*)malloc(20*sizeof(char));
     char ch;
