@@ -69,20 +69,26 @@ int Insert_Alias(HashTable HT, char alias[], char path[])
         else
         {
             //Insert at end                                       
-            while(P != NULL)
+            while(P->Next != NULL)
             {
                 //Check if the alias already exists
                 if( strcmp(Q->Alias, P->Alias) == 0 )
                 {
                     exists = 1;
+                    break;
                 }
                 P = P->Next;
+            }
+            //Check if the alias already exists
+            if( strcmp(Q->Alias, P->Alias) == 0 )
+            {
+                exists = 1;
             }
 
             //Insert Alias
             if(!exists)
             {
-                P = Q;
+                P->Next = Q;
                 return 1;
             }
             else

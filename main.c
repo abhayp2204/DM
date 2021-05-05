@@ -7,7 +7,7 @@ int main()
     Directory manager;
     manager = createDirectory();
 
-    HashTable HT = CreateHT_SC(100);
+    HashTable HT = CreateHT_SC(101);
 
     char action[10];
     char type[20];
@@ -57,7 +57,9 @@ int main()
             //Input alias and path
             scanf("%s %s", iAlias, iPath);
 
-            Alias(manager, T, iAlias, iPath);
+            Alias(manager, HT, iAlias, iPath);
         }
+
+        printf("\n");
     }
 }

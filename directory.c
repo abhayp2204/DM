@@ -1,4 +1,5 @@
 #include"directory.h"
+#include"hash.c"
 
 Directory createDirectory()
 {
