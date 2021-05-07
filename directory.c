@@ -203,3 +203,50 @@ char* ExtractPath(char path[400], int level)
 
     return word;
 }
+
+
+void Find(Directory manager, char prefix[20]){
+
+    
+    Directory Curr;
+
+    Curr = (Directory) malloc(sizeof(struct DM));
+
+    assert(Curr != NULL);
+
+    Curr = manager->Current;
+    //printf("dee\n");
+
+    Inorder(Curr,prefix);
+
+
+}
+
+void Inorder(Directory Curr,char prefix[20]){
+
+
+    if(Curr == NULL){
+
+        return;
+    }
+
+    char str[20];
+    char str1[strlen(prefix)];
+
+    int len = strlen(prefix);
+
+
+    Inorder(Curr->LeftChild,prefix);
+
+    strcpy(str,Curr->Name);
+    strncpy(str1,str,len);
+
+
+    if(strcmp(str1,prefix) == 0){
+
+        printf("%s\n",str);
+    }
+
+    Inorder(Curr->RightSibling, prefix);
+
+}
