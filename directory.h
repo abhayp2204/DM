@@ -51,9 +51,8 @@ void Move(Directory manager, char path[20]);
 void Alias(Directory D, HashTable HT, char alias[20], char path[400]);
 int IsCorrectPath(Directory D, char path[100]);
 char *ExtractPath(char path[100], int level);
+void Find(Directory manager, char prefix[20]);
 void Teleport(char alias[20]);
-void Find(Directory D, char prefix[20]);
-void Inorder(Directory D, char prefix[20]);
 
 //Alias table functions
 HashTable CreateHT_SC(int iTableSize);

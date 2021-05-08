@@ -3,6 +3,8 @@
 
 Directory createDirectory()
 {
+    //creating a directory manager with a root node
+
     Directory manager;
     manager = (Directory)malloc(sizeof(struct DM));
     assert(manager != NULL);
@@ -18,7 +20,27 @@ Directory createDirectory()
 
 void Add(Directory manager, char type[20], char name[20])
 {
+    //checking if the current directory we are working in is file or not
+    if(manager->Current->Type == 0)
+    {
+        printf("this file/directory can't be added in this file\n");
+        return;
+    }
     Directory D, T; 
+
+    //checking if the name we are adding already exists or not
+    T = manager->Current->LeftChild;
+    while(T != NULL)
+    {
+        if(strcmp(T->Name, name)==0)
+        {
+            printf("the file/directory with the name '%s' already exists\n", name);
+            return;
+        }
+        T = T->RightSibling;
+    }
+    
+    //assigning all the characteristics of the adding file/directory to the variable directory D
     D = (Directory)malloc(sizeof(struct DM));
     assert(D != NULL);
 
@@ -43,6 +65,7 @@ void Add(Directory manager, char type[20], char name[20])
     D->RightSibling = NULL;
     D->LeftChild = NULL;
 
+    //traversing in the current directory till we find the last file/directory to add the file/direcotry to the right of it
     T = manager->Current->LeftChild;
     
     if(manager->Current->LeftChild != NULL)
@@ -57,6 +80,7 @@ void Add(Directory manager, char type[20], char name[20])
     {
         manager->Current->LeftChild = D;
     }
+    printf("\n'%s' added in the current directory\n\n",name);
 
     return;
 }
@@ -67,6 +91,7 @@ void Move(Directory manager, char path[400])
     Directory D;
     int flag = 0;
 
+    //Moving from current directory to the root directory
     if(strcmp(path, "root")==0)
     {
         while(strcmp(manager->Current->Name, "root") != 0)
@@ -78,6 +103,7 @@ void Move(Directory manager, char path[400])
     else
         D = manager->Current->LeftChild;
 
+    //Moving from root directory to the desired directory till we traverse to the right most file/directory in the current directory
     while(flag != 1 && D != NULL)
     {
         if(strcmp(D->Name, path)==0)
@@ -91,11 +117,15 @@ void Move(Directory manager, char path[400])
         }
     }
 
+    //if we move to the desired directory then return else if desired directory is not found then incorrect path
     if(flag == 1)
+    {
+        printf("\nsuccessfully moved to the desired file/directory\n\n");
         return;
+    }
     else
     {
-        printf("error: incorrect path\n");
+        printf("\nerror: incorrect path\n\n");
         manager->Current = T;
         return;
     }
@@ -110,11 +140,11 @@ void Alias(Directory D, HashTable HT, char alias[20], char path[400])
     {
         //If path is correct, insert alias to hash table
         if(Insert_Alias(HT,alias,path))
-        printf("\"%s\" has been added\n", alias);
+        printf("\n\"%s\" has been added\n\n", alias);
     }
     else
     {
-        printf("\"%s\" has an invalid path\n", alias);
+        printf("\n\"%s\" has an invalid path\n\n", alias);
     }
 }
 
@@ -124,7 +154,7 @@ int IsCorrectPath(Directory D, char path[400])
     Directory Parent =  P;
 
     int correctPath = 1;
-    int found;                                          //found indicates whether the directory is present at a particular level
+    int found;              //found indicates whether the directory is present at a particular level
 
     int level = 0;
     char* word;
@@ -220,49 +250,39 @@ char* ExtractPath(char path[400], int level)
     return word;
 }
 
+void Find(Directory manager, char prefix[20])
+{
+    Directory D = manager->Current->LeftChild;
+    int flag = 0;
 
-void Find(Directory manager, char prefix[20]){
+    printf("\n");
 
+    //finding all the files/directories with the given prefix
+    while(D != NULL)
+    {
+        char str[strlen(prefix)+1];
+
+        if(strlen(D->Name) >= strlen(prefix))
+        {
+            strncpy(str, D->Name, strlen(prefix));
+
+            str[strlen(prefix)] = '\0';
+
+            if(strcmp(prefix, str)==0)
+            {
+                printf("%s  ", D->Name);
+                flag = 1;
+            }
+        }
+        D = D->RightSibling;
+    }
     
-    Directory Curr;
-
-    Curr = (Directory) malloc(sizeof(struct DM));
-
-    assert(Curr != NULL);
-
-    Curr = manager->Current;
-    //printf("dee\n");
-
-    Inorder(Curr,prefix);
-
-
-}
-
-void Inorder(Directory Curr,char prefix[20]){
-
-
-    if(Curr == NULL){
-
-        return;
+    //if not found any file/directory with the given prefix then incorrect prefix  
+    if(flag == 0)
+    {
+        printf("Please enter correct prefix");
     }
 
-    char str[20];
-    char str1[strlen(prefix)];
-
-    int len = strlen(prefix);
-
-
-    Inorder(Curr->LeftChild,prefix);
-
-    strcpy(str,Curr->Name);
-    strncpy(str1,str,len);
-
-
-    if(strcmp(str1,prefix) == 0){
-
-        printf("%s\n",str);
-    }
-
-    Inorder(Curr->RightSibling, prefix);
-
+    printf("\n\n");
+    return;
 }

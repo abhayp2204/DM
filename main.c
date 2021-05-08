@@ -26,6 +26,7 @@ int main()
         if (strcmp(action, "ADD") == 0)
         {
             scanf("%s %s", type, name);
+            
             Add(manager, type, name);
         }
 
@@ -35,7 +36,8 @@ int main()
             scanf("%s", whole_path);
 
             int index = 0;
-
+            
+            //breaking the whole path into subpaths directory by directory
             int i = 0, j = 0;
             while (whole_path[i])
             {
@@ -44,9 +46,12 @@ int main()
                     path[j][index++] = whole_path[i];
                     i++;
                 }
+
                 i++;
                 path[j][index] = 0;
+
                 Move(manager, path[j]);
+
                 j++;
                 index = 0;
             }
@@ -61,14 +66,12 @@ int main()
             Alias(manager, HT, iAlias, iPath);
         }
         
-        //FIND
-        else if (strcmp(action, "FIND") == 0)
+        //FIND 
+        else if(strcmp(action, "FIND")==0)
         {
+            scanf("%s",prefix);
 
-            //Input Name to search
-
-            scanf("%s", name);
-            Find(manager, name);
+            Find(manager, prefix);
         }
 
         printf("\n");
