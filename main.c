@@ -20,12 +20,14 @@ int main()
 
     while (1)
     {
-        //Input the action
+L1:     //Input the action
+        printf("State the action you want to perform\n");
         scanf("%s", action);
 
         //ADD
         if (strcmp(action, "ADD") == 0)
         {
+            printf("Enter the type and name of a file/directory\n");
             scanf("%s %s", type, name);
 
             Add(manager, type, name);
@@ -34,7 +36,14 @@ int main()
         //MOVE
         else if (strcmp(action, "MOVE") == 0)
         {
+            printf("Enter the path for the desired file/directory\n");
             scanf("%s", whole_path);
+
+            if(whole_path[strlen(whole_path)-1] != '/')
+            {
+                printf("Please enter the path with proper slashes\n\n");
+                goto L1;
+            }
 
             int index = 0;
             
@@ -62,6 +71,7 @@ int main()
         else if (strcmp(action, "ALIAS") == 0)
         {
             //Input alias and path
+            printf("Enter the alias and the path of the file/directory\n");
             scanf("%s %s", iAlias, iPath);
 
             Alias(manager, HT, iAlias, iPath);
@@ -70,6 +80,7 @@ int main()
         //FIND 
         else if(strcmp(action, "FIND")==0)
         {
+            printf("Enter the prefix you want to find\n");
             scanf("%s",prefix);
 
             Find(manager, prefix);
@@ -78,8 +89,15 @@ int main()
         //QUIT
         else if(strcmp(action, "QUIT")==0)
         {
-            return 0;
+            char ans;
+            printf("This will terminate the program, are you sure you want to quit(y/n)\n");
+            scanf("%c",ans);
+
+            if(ans == 'y')
+                return 0;
+            else
+                goto L1;
         }
-        
+
     }
 }
