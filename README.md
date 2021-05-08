@@ -1,3 +1,5 @@
+Note: (Please open the .md file and do not view in git as it looks completely different)
+
 .......................................................................................
 Syntax for operations are shown below:
 
