@@ -16,6 +16,7 @@ int main()
     char iPath[400];
     char whole_path[400];
     char path[20][20];
+    char prefix[20];
 
     while (1)
     {
@@ -26,7 +27,7 @@ int main()
         if (strcmp(action, "ADD") == 0)
         {
             scanf("%s %s", type, name);
-            
+
             Add(manager, type, name);
         }
 
@@ -74,6 +75,11 @@ int main()
             Find(manager, prefix);
         }
 
-        printf("\n");
+        //QUIT
+        else if(strcmp(action, "QUIT")==0)
+        {
+            return 0;
+        }
+        
     }
 }
