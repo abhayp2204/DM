@@ -1,5 +1,4 @@
 #include "directory.c"
-#include "hash.c"
 #include <stdio.h>
 #include <string.h>
 
@@ -20,6 +19,7 @@ int main()
 
     while (1)
     {
+        //Input the action
         scanf("%s", action);
 
         //ADD
@@ -61,6 +61,7 @@ int main()
             Alias(manager, HT, iAlias, iPath);
         }
         
+        //FIND
         else if (strcmp(action, "FIND") == 0)
         {
 

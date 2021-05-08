@@ -1,5 +1,3 @@
-#include "directory.h"
-
 HashTable CreateHT_SC(int iTableSize)
 {
     HashTable HT;

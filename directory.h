@@ -1,7 +1,8 @@
-
 #ifndef __DIRECTORY_H
 #define __DIRECTORY_H
-#define _invalid -555;
+#define _invalid -555
+#define _FILE 0
+#define _DIR 1
 
 //Include
 #include <stdio.h>

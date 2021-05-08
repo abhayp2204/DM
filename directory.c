@@ -103,10 +103,12 @@ void Move(Directory manager, char path[400])
 
 void Alias(Directory D, HashTable HT, char alias[20], char path[400])
 {
+    //Check if the path is correct
     int correctPath = IsCorrectPath(D,path);
 
     if( correctPath )
     {
+        //If path is correct, insert alias to hash table
         if(Insert_Alias(HT,alias,path))
         printf("\"%s\" has been added\n", alias);
     }
@@ -122,7 +124,7 @@ int IsCorrectPath(Directory D, char path[400])
     Directory Parent =  P;
 
     int correctPath = 1;
-    int found;
+    int found;                                          //found indicates whether the directory is present at a particular level
 
     int level = 0;
     char* word;
@@ -130,13 +132,23 @@ int IsCorrectPath(Directory D, char path[400])
     //Check if the path is correct
     do
     {
+        /*If path is "root/Desktop/Pictures"
+
+          ExtractPath(path,0) = "root"
+          ExtractPath(path,1) = "Desktop"
+          ExtractPath(path,2) = "Pictures"
+
+          First we check if root is present at level 0,
+          then we check if Desktop is present at level 1
+          and so on
+        */
         word = ExtractPath(path,level++);
 
-        //Reached the end of the path
+        //If word is empty, we reached the end of the path
         if( strcmp(word, "") == 0 )
         break;
 
-        //Path contains extra dir/files
+        //If path contains directories that do not exist in the actual directory structure
         if( P == NULL )
         {   
             correctPath = 0;
@@ -146,19 +158,19 @@ int IsCorrectPath(Directory D, char path[400])
         //Reinitialize found to 0 at the start of each level
         found = 0;
 
-        //Traverse right
+        //Traverse right across the level and search
         while(P != NULL)
         {
-            if(strcmp(P->Name, word) == 0 )
+            if(strcmp(P->Name, word) == 0 && P->Type == _DIR )
             {
                 found = 1;
-                Parent = P;
+                Parent = P;   //Must save the parent to travese down
                 break;
             }
             P = P->RightSibling;
         }
 
-        //Directory doesn't exist in the current level
+        //If founnd is 0, then directory doesn't exist in the current level
         if( found ==  0 )
         {
             correctPath = 0;
@@ -183,6 +195,9 @@ char* ExtractPath(char path[400], int level)
     {
         ch = path[i];
 
+        //We skip all characters before level number of '/'
+        //If the level is 2, at the end of this loop we will
+        //be at the character after the second /
         while( level > 0 )
         {
             if( ch == '/' )
@@ -193,6 +208,7 @@ char* ExtractPath(char path[400], int level)
             ch = path[i];
         }
 
+        //Get the string between nth slash and (n+1)th slash
         if( ch == '/' )
         {
             break;
