@@ -47,12 +47,12 @@ struct Node
 //Functions
 Directory createDirectory();
 void Add(Directory manger, char type[20], char name[20]);
-void Move(Directory manager, char path[20]);
+int Move(Directory manager, char path[20]);
 void Alias(Directory D, HashTable HT, char alias[20], char path[400]);
 int IsCorrectPath(Directory D, char path[100]);
 char *ExtractPath(char path[100], int level);
 void Find(Directory manager, char prefix[20]);
-void Teleport(char alias[20]);
+int Teleport(Directory manager,HashTable HT,char alias_te[20]);
 
 //Alias table functions
 HashTable CreateHT_SC(int iTableSize);

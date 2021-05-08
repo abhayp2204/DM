@@ -23,7 +23,7 @@ void Add(Directory manager, char type[20], char name[20])
     //checking if the current directory we are working in is file or not
     if(manager->Current->Type == 0)
     {
-        printf("this file/directory can't be added in this file\n");
+        printf("\n'%s' can't be added in '%s' file\n\n", name, manager->Current->Name);
         return;
     }
     Directory D, T; 
@@ -34,7 +34,7 @@ void Add(Directory manager, char type[20], char name[20])
     {
         if(strcmp(T->Name, name)==0)
         {
-            printf("the file/directory with the name '%s' already exists\n", name);
+            printf("\nThe file/directory with the name '%s' already exists in '%s' directory\n\n", name, manager->Current->Name);
             return;
         }
         T = T->RightSibling;
@@ -56,7 +56,7 @@ void Add(Directory manager, char type[20], char name[20])
 
     else
     {
-        printf("invalid type\n");
+        printf("\nInvalid Type\n\n");
         return;
     }
 
@@ -80,16 +80,16 @@ void Add(Directory manager, char type[20], char name[20])
     {
         manager->Current->LeftChild = D;
     }
-    printf("\n'%s' added in the current directory\n\n",name);
+    printf("\n'%s' added successfully in the '%s' directory\n\n", name, manager->Current->Name);
 
     return;
 }
 
-void Move(Directory manager, char path[400])
+int Move(Directory manager, char path[400])
 {
     Directory T = manager->Current;
     Directory D;
-    int flag = 0;
+    int flag = 0, result = 0;
 
     //Moving from current directory to the root directory
     if(strcmp(path, "root")==0)
@@ -120,15 +120,15 @@ void Move(Directory manager, char path[400])
     //if we move to the desired directory then return else if desired directory is not found then incorrect path
     if(flag == 1)
     {
-        printf("\nsuccessfully moved to the desired file/directory\n\n");
-        return;
+        result = 1;
     }
     else
     {
-        printf("\nerror: incorrect path\n\n");
+        printf("\nError: Incorrect path\n\n");
+        result = 0;
         manager->Current = T;
-        return;
     }
+    return result;
 }
 
 void Alias(Directory D, HashTable HT, char alias[20], char path[400])
@@ -140,7 +140,7 @@ void Alias(Directory D, HashTable HT, char alias[20], char path[400])
     {
         //If path is correct, insert alias to hash table
         if(Insert_Alias(HT,alias,path))
-        printf("\n\"%s\" has been added\n\n", alias);
+        printf("\n\"%s\" has been successfully added\n\n", alias);
     }
     else
     {
@@ -250,6 +250,42 @@ char* ExtractPath(char path[400], int level)
     return word;
 }
 
+int Teleport(Directory manager,HashTable HT,char alias_te[])
+{
+    int tele=1;
+    char path[400],p[20][20];
+
+    strcpy(path,Search_Alias(HT,alias_te));
+
+    //The search_alias functon returns character array of path
+    if(strcmp(path,"")==0){
+        tele=0;
+    }
+
+    int index=0,i=0,j=0;
+
+    //p is a matrix which stores the path directory wise, from the whole long path. 
+    while(path[i])
+    {
+        while(path[i] && path[i] != '/')
+        {
+            p[j][index++]=path[i];
+            i++;
+        }
+
+        i++;
+        p[j][index]=0;
+
+        Move(manager,p[j]);
+
+        //Used move function to change the current directory to other directory.
+        j++;
+        index=0;
+    }
+
+    return tele;
+}
+
 void Find(Directory manager, char prefix[20])
 {
     Directory D = manager->Current->LeftChild;
@@ -280,7 +316,7 @@ void Find(Directory manager, char prefix[20])
     //if not found any file/directory with the given prefix then incorrect prefix  
     if(flag == 0)
     {
-        printf("Please enter correct prefix");
+        printf("\nPlease enter correct prefix\n\n");
     }
 
     printf("\n\n");

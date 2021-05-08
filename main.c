@@ -41,11 +41,11 @@ L1:     //Input the action
 
             if(whole_path[strlen(whole_path)-1] != '/')
             {
-                printf("Please enter the path with proper slashes\n\n");
+                printf("Please include a slash at last\n\n");
                 goto L1;
             }
 
-            int index = 0;
+            int index = 0, result;
             
             //breaking the whole path into subpaths directory by directory
             int i = 0, j = 0;
@@ -60,11 +60,15 @@ L1:     //Input the action
                 i++;
                 path[j][index] = 0;
 
-                Move(manager, path[j]);
+                result = Move(manager, path[j]);
+                
+                if(result == 0)
+                    goto L1;
 
                 j++;
                 index = 0;
             }
+            printf("\nSuccessfully moved to the '%s' file/directory\n\n", path[j-1]);
         }
 
         //ALIAS
@@ -75,6 +79,23 @@ L1:     //Input the action
             scanf("%s %s", iAlias, iPath);
 
             Alias(manager, HT, iAlias, iPath);
+        }
+
+        //TELEPORT
+        else if (strcmp(action, "TELEPORT")==0)
+        {
+            //INPUT ALIAS
+            printf("Enter the alias to which you want to teleport\n");
+            scanf("%s",alias_te);
+
+            int tele=Teleport(manager,HT,alias_te);
+            
+            if(tele==1){
+                printf("\nTeleport successfully\n\n");
+            }
+            if(tele==0){
+                printf("\nAlias Not Found (Invalid Input)\n\n");
+            }
         }
         
         //FIND 
@@ -89,15 +110,14 @@ L1:     //Input the action
         //QUIT
         else if(strcmp(action, "QUIT")==0)
         {
-            char ans;
-            printf("This will terminate the program, are you sure you want to quit(y/n)\n");
-            scanf("%c",ans);
-
-            if(ans == 'y')
-                return 0;
-            else
-                goto L1;
+            printf("\nThe program terminates....\n\n");
+                
+            return 0;
         }
 
+        else
+        {
+            printf("\nInvalid action, please check\n\n");
+        }
     }
 }
