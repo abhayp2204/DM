@@ -101,6 +101,9 @@ Ferrari root/Pictures/Travel/Italy/
 TELEPORT                                              //a test for valid alias
 Pizza
 
+ADD
+file Rome
+
 TELEPORT                                              //a test for invalid alias
 Pasta
 
