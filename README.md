@@ -4,14 +4,16 @@ Note: (Please open the .md file and do not view in git as it looks completely di
 Syntax for operations are shown below:
 
 ADD
-<type>                    //type can be file or directory
-<name>
+<type> <name>             // type can be file or directory
 
 MOVE
-<path>                    //root/dir1/dir2/.../
+<path>                    // root/dir1/dir2/.../
 
 ALIAS
 <name> <path>
+
+TELEPORT
+<alias>
 
 FIND
 <name>
@@ -36,45 +38,37 @@ root					                                  ______ root ________
 This is how the input would be given:
 
 ADD
-directory
-Desktop
+directory Desktop
 
 ADD
-directory
-Pictures
+directory Pictures
 
 ADD
-directory
-Documents
+directory Documents
 
 MOVE
 root/Desktop/
 
 ADD
-directory
-Code
+directory Code
 
 MOVE
 root/Pictures/
 
 ADD
-directory
-Beach
+directory Beach
 
 ADD
-directory
-Travel
+directory Travel
 
 MOVE
 root/Pictures/Travel/
 
 ADD
-directory
-France
+directory France
 
 ADD
-directory
-Italy
+directory Italy
 
 MOVE
 root/Pictures/Travel/France/
@@ -87,12 +81,10 @@ MOVE
 root/Pictures/Travel/Italy/
 
 ADD
-file
-Image1
+file Image1
 
 ADD
-file
-Image2
+file Image2
 
 ALIAS
 Pizza root/Pictures/Travel/Italy/                     //a test for correct alias
@@ -103,8 +95,17 @@ Pizza root/Pictures/Travel/France/                    //a test for already exist
 ALIAS
 Beer root/Pictures/Travel/Germany/                    //a test for invalid path
 
-MOVE
-root/Pictures/
+ALIAS
+Ferrari root/Pictures/Travel/Italy/
+
+TELEPORT                                              //a test for valid alias
+Pizza
+
+TELEPORT                                              //a test for invalid alias
+Pasta
+
+TELEPORT
+Ferrari
 
 FIND
-Travel
+Imag

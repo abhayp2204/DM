@@ -1,6 +1,9 @@
 #include"directory.h"
 #include"hash.c"
 
+//Global variable used in extract path function
+int z = 0;
+
 Directory createDirectory()
 {
     //creating a directory manager with a root node
@@ -156,23 +159,23 @@ int IsCorrectPath(Directory D, char path[400])
     int correctPath = 1;
     int found;              //found indicates whether the directory is present at a particular level
 
-    int level = 0;
     char* word;
+    z = 0;
 
     //Check if the path is correct
     do
     {
         /*If path is "root/Desktop/Pictures"
 
-          ExtractPath(path,0) = "root"
-          ExtractPath(path,1) = "Desktop"
-          ExtractPath(path,2) = "Pictures"
+          iteration1:  ExtractPath(path) = "root" 
+          iteration2:  ExtractPath(path) = "Desktop"
+          iteration3:  ExtractPath(path) = "Pictures"
 
           First we check if root is present at level 0,
           then we check if Desktop is present at level 1
           and so on
         */
-        word = ExtractPath(path,level++);
+        word = ExtractPath(path);
 
         //If word is empty, we reached the end of the path
         if( strcmp(word, "") == 0 )
@@ -215,32 +218,23 @@ int IsCorrectPath(Directory D, char path[400])
     return correctPath;
 }
 
-char* ExtractPath(char path[400], int level)
+char* ExtractPath(char path[400])
 {
+    //z stores the index of the previous '/' + 1
+
     char* word = (char*)malloc(20*sizeof(char));
     char ch;
     int k = 0;
 
-    for( int i = 0 ; i < strlen(path) ; i++ )
+    //We start from the character after the previous '/'
+    for( int i = z ; i < strlen(path) ; i++ )
     {
         ch = path[i];
-
-        //We skip all characters before level number of '/'
-        //If the level is 2, at the end of this loop we will
-        //be at the character after the second /
-        while( level > 0 )
-        {
-            if( ch == '/' )
-            {
-                level--;
-            }
-            i++;
-            ch = path[i];
-        }
 
         //Get the string between nth slash and (n+1)th slash
         if( ch == '/' )
         {
+            z = i + 1;
             break;
         }
         

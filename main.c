@@ -13,6 +13,7 @@ int main()
     char type[20];
     char name[20];
     char iAlias[20];
+    char alias_te[20];
     char iPath[400];
     char whole_path[400];
     char path[20][20];
@@ -61,7 +62,7 @@ L1:     //Input the action
                 path[j][index] = 0;
 
                 result = Move(manager, path[j]);
-                
+              
                 if(result == 0)
                     goto L1;
 
@@ -75,7 +76,7 @@ L1:     //Input the action
         else if (strcmp(action, "ALIAS") == 0)
         {
             //Input alias and path
-            printf("Enter the alias and the path of the file/directory\n");
+            printf("Enter the alias and the path of the directory\n");
             scanf("%s %s", iAlias, iPath);
 
             Alias(manager, HT, iAlias, iPath);
